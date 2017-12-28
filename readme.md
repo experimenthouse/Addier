@@ -11,7 +11,7 @@ Addier uses accounting information stored in YAML files and processed by a Pytho
 The repository consists of:
 
 - `addier.py` — the script
-- `config.yaml` - an example config file
+- `config.yaml` — an example config file
 - `journal/2018-01-01-entry.yaml` — an example journal entry
 - `templates/*.html` — the template files for the accounts
 
