@@ -118,7 +118,8 @@ credit:
   -
     account: Sales revenue
     amount: 100.00
-    
+```
+
 ### note
 
 In some cases a journal entry may benefit from a note. This is optional.
