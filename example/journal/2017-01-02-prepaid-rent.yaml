@@ -1,0 +1,10 @@
+date: 2017-01-02
+narration: Prepaid rent
+debit:
+  -
+    account: Prepaid Rent
+    amount: 36000.00
+credit:
+    -
+      account: Cash
+      amount: 36000.00

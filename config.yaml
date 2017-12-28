@@ -1,0 +1,16 @@
+business_name: Business Name
+business_information:
+  - "Business information"
+functional_currency: ABC
+accounts:
+  -
+    name: Debit example
+    type: Asset
+  -
+    name: Credit example
+    type: Liability
+currencies:
+  -
+    name: Example Currency
+    code: ABC
+    symbol: A

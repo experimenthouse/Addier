@@ -1,0 +1,10 @@
+date: 2017-01-31
+narration: Dividends
+debit:
+  -
+    account: Dividends
+    amount: 5000.00
+credit:
+  -
+    account: Cash
+    amount: 5000.00

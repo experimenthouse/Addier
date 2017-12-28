@@ -1,0 +1,10 @@
+date: 2017-01-28
+narration: Wages
+debit:
+  -
+    account: Wages
+    amount: 19100.00
+credit:
+  -
+    account: Cash
+    amount: 19100.00

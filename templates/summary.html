@@ -1,0 +1,27 @@
+{ header }
+
+<div class="wrapper">
+  <hr/>
+  <div class="sheet">
+    <div class="sheet-header">
+      <h2>Balance Sheet</h2>
+      <span class="sheet-subheading">As at { current_date }</span>
+    </div>
+    <table class="group-table">
+      { balance_sheet }
+    </table>
+  </div>
+  <hr/>
+  <div class="sheet">
+    <div class="sheet-header">
+      <h2>Profit &amp; Loss Statement</h2>
+      <span class="sheet-subheading">For the period { pl_start } to { pl_end }</span>
+    </div>
+    <table class="group-table">
+      <tr class="group-heading">
+        { pl_statement }
+    </table>
+  </div>
+</div>
+
+{ footer }

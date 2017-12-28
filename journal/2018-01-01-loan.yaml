@@ -1,0 +1,11 @@
+date: 2018-01-01
+narration: Example entry
+debit:
+  -
+    account: Debit example
+    amount: 25000.00
+credit:
+  -
+    account: Credit example
+    amount: 25000.00
+note: Note for example entry.

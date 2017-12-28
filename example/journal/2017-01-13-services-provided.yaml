@@ -1,0 +1,10 @@
+date: 2017-01-13
+narration: Services provided
+debit:
+  -
+    account: Cash
+    amount: 28500.00
+credit:
+  -
+    account: Service revenue
+    amount: 28500.00

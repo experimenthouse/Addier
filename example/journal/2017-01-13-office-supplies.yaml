@@ -1,0 +1,10 @@
+date: 2017-01-13
+narration: "Office supplies"
+debit:
+  -
+    account: Accounts payable
+    amount: 17600.00
+credit:
+  -
+    account: Cash
+    amount: 17600.00
