@@ -157,7 +157,7 @@ for entry_file in os.listdir("journal"):
         journal_entry += "</tbody>"
         journal_entries += journal_entry
         entry_date = datetime.datetime.strptime(
-            "2018-01-01", "%Y-%m-%d").strftime(
+            str(entry["date"]), "%Y-%m-%d").strftime(
                 "%A %d %B %Y").lstrip("0").replace(" 0", " ")
         entry_page = open("templates/entry.html").read()
         entry_page = entry_page.replace("{ header }", header)
