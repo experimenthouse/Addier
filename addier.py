@@ -72,7 +72,7 @@ journal_row_head = (
         "<tr>"
             "<td rowspan='{0}'>{1}</td>"
             "<td rowspan='{0}'>{2}</td>"
-            "<td>{3}</td>{4}{5}"
+            "<td>{3}</td>{4}{5}{6}"
         "</tr>")
 journal_row_dr = "<tr><td>{0}</td>{1}</tr>"
 journal_row_cr = "<tr><td class='credit-row'>{0}</td>{1}</tr>"
@@ -104,10 +104,27 @@ for entry_file in os.listdir("journal"):
         entry_url = "entries/" + entry_file.rsplit('.', 1)[0] + ".html"
         with open("journal/" + entry_file, "r") as journal_file:
             entry = yaml.load(journal_file)
+        debit_total = 0
+        credit_total = 0
+        for account in entry["debit"]:
+            debit_total += account["amount"]
+        for account in entry["credit"]:
+            credit_total += account["amount"]
         for account in entry["debit"]:
             journal_row_amount = debit.format(account["amount"])
             if entry["debit"].index(account) == 0:
                 rowspan = str(len(entry["debit"] + entry["credit"]))
+                balance_check = "<td rowspan='{0}' class='{1}'>{2}</td>"
+                if debit_total == credit_total:
+                    balance_check = balance_check.format(
+                        rowspan,
+                        "balanced",
+                        "Balanced")
+                else:
+                    balance_check = balance_check.format(
+                        rowspan,
+                        "unbalanced",
+                        "Unbalanced")
                 entry_link = (
                     "<td rowspan='{0}'>"
                         "<a href='{1}'>View</a>"
@@ -118,6 +135,7 @@ for entry_file in os.listdir("journal"):
                     entry["narration"],
                     account["account"],
                     journal_row_amount,
+                    balance_check,
                     entry_link)
             else:
                 journal_entry += journal_row_dr.format(
@@ -143,7 +161,9 @@ for entry_file in os.listdir("journal"):
                 "%A %d %B %Y").lstrip("0").replace(" 0", " ")
         entry_page = open("templates/entry.html").read()
         entry_page = entry_page.replace("{ header }", header)
-        entry_page = entry_page.replace("{ page_name }", entry["narration"] + " (%s)" % entry_date)
+        entry_page = entry_page.replace(
+            "{ page_name }",
+            entry["narration"] + " (%s)" % entry_date)
         entry_page = entry_page.replace("{ journal_entry }", journal_entry.replace(entry_link, ""))
         if "note" in entry:
             entry_page = entry_page.replace(
