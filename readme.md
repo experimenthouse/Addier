@@ -4,18 +4,29 @@ A Python-based double-entry accounting system
 
 ## Introduction
 
-Addier uses accounting information stored in YAML files and processed by a Python script to compile a balance sheet, profit and loss statement, list of journal entries, and individual entry pages in HTML format.
+Addier is a Python script that uses accounting information stored in YAML files to produce a balance sheet, profit and loss statement, journal, and individual journal entry pages in HTML format.
 
-## Setting up
+It was inspired by the lack of decent free _and_ open-source options. Many of the existing solutions are outdated, difficult to use, not cross-platform, or simply not free and open-source.
 
-The repository consists of:
+By contrast, Addier aims to be simple to use and free and open-source. It also encourages corporate transparency by making it easy to publish the resulting accounts.
 
-- `addier.py` — the script
-- `config.yaml` — an example config file
-- `journal/2018-01-01-entry.yaml` — an example journal entry
-- `templates/*.html` — the template files for the accounts
+## Structure
 
-Also included is the directory `example`, which contains a more detailed `config.yaml` and journal entries for a better example.
+Addier has the following directory structure:
+
+```
+| - addier.py
+| - config.yaml
+| - journal
+    | - YYYY-MM-DD-*.yaml
+| - style.css
+| - templates
+    | - entry.html
+    | - footer.html
+    | - header.html
+    | - journal.html
+    | - summary.html
+```
 
 ## Running the script
 
@@ -27,54 +38,28 @@ Change into the directory and run `python3 addier.py` to see it in action. A dir
 
 ## Configuration
 
-`config.yaml` can be modified to customise the accounts. This is standard YAML and should be self-explanatory for the most part, but this is outlined below.
-
-### business_name
-
-The name of your business! This will be inserted into every page for a consistent header.
-
-### business_information
-
-Each list item represents a line that will be inserted into every page header. This could be the registration number, telephone number and email address for the business, for example:
+The `config.yaml` file stores the account settings. The structure of the file is thus:
 
 ```
-business_information:
-  - "Registration number: 1234567890"
-  - "Phone: +1 234 567 890"
-  - "Email: example@example.com"
-```
-
-### functional_currency
-
-The currency used for the accounts, in code form. It is recommended that [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217) codes be used. This code must correspond with a currency in the config file (see below).
-
-It is planned to have a separate option to compile accounts in a different currency for filing. Some businesses may use one currency as their functional currency, but be required to file annual accounts in a different currency (eg a British business that uses United States Dollars, but is required to file in Pounds Sterling).
-
-### accounts
-
-A list of accounts with names and types. The name is arbitrary, but must be used consistently between the config file and the journal entries. No check is performed on this, but it is planned. The account type must be either "Asset", "Liability", "Income", "Expense" or "Equity". Read up on accounting practices to determine which accounts should be which. The format is:
-
-```
-accounts:
+business_name: # the name of the business
+business_information: # a place to store business information such as registration numbers
+  - # each line of business information gets a separate list item
+base_url: # the base URL for where the accounts will be uploaded
+functional_currency: # the ISO 4217 code of the currency in which the accounts are to be prepared
+accounts: # each account is a separate list item that specifies the name and type of account
   -
-    name: 
-    type:
-   -
-    name: 
-    type:
- ```
- 
-### currencies
- 
-A list of currencies. Support for multiple currencies is planned, but for now just one is required. A name, code and symbol is required (eg "Australian Dollar", "AUD", and "$"). As above, it is recommended that the ISO 4217 code be used. The currency list is in the following format:
-
-```
-currencies:
+    name: # the name of the account
+    type: # 'Asset', 'Liability', 'Income', 'Expense' or 'Equity'
+currencies: # which currencies are used
   -
-    name:
-    code:
-    symbol:
+    name: # the name of the currency (eg 'United States dollar')
+    code: # the ISO 4217 code of the currency (eg 'USD')
+    symbol: # the currency symbol (eg '$')
 ```
+
+Most of this information is not crucial and Addier should be able to run just fine without it. However, it is _very_ important to ensure that the currency code used for `functional_currency` matches a currency code in the currencies list. ISO 4217 codes are recommended to avoid error.
+
+It is also vital that the name and type of account are specified accurately. The type must be one of the five listed: 'Asset', 'Liability', 'Income', 'Expense' or 'Equity'. The name of the account is used in the journal entries, so make sure it is spelt correctly.
 
 ## Journal entries
 
