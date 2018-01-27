@@ -1,6 +1,7 @@
 business_name: Business Name
 business_information:
   - "Business information"
+base_url: "https://example.com/accounts"
 functional_currency: ABC
 accounts:
   -

@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import yaml
-import os
-import datetime
+import yaml, os, datetime, json, urllib.request
 
 if not os.path.exists("accounts"):
     os.makedirs("accounts")
 if not os.path.exists("accounts/entries"):
     os.makedirs("accounts/entries")
+
+style = open("style.css", "r").read()
+
+open("accounts/style.css", "w").write(style)
+
+with open("config.yaml", "r") as config_file:
+    config = yaml.load(config_file)
 
 pages = [
   {
@@ -26,11 +31,8 @@ page_links = ""
 
 for page in pages:
     page_links += (
-        "<a class='page-link' href='../{0}'>{1}</a>"
-        .format(page["url"], page["short"]))
-
-with open("config.yaml", "r") as config_file:
-    config = yaml.load(config_file)
+        "<a class='page-link' href='{0}/{1}'>{2}</a>"
+        .format(config["base_url"], page["url"], page["short"]))
 
 for currency in config["currencies"]:
     if currency["code"] == config["functional_currency"]:
@@ -45,6 +47,7 @@ for line in config["business_information"]:
     business_information += line + "<br>\n"
 
 header = open("templates/header.html").read()
+header = header.replace("{ base_url }", config["base_url"])
 header = header.replace("{ business_name }", business_name)
 header = header.replace(
     "{ business_information }",
@@ -100,7 +103,7 @@ pl_end = (datetime.datetime.strptime(
 
 for entry_file in os.listdir("journal"):
     journal_entry = ""
-    if entry_file.endswith(tuple([".yml", ".yaml"])):
+    if entry_file.endswith(".yaml"):
         entry_url = "entries/" + entry_file.rsplit('.', 1)[0] + ".html"
         with open("journal/" + entry_file, "r") as journal_file:
             entry = yaml.load(journal_file)
@@ -267,7 +270,11 @@ for page in pages:
         page_links += "<a class='page-link"
         if page["name"] == _page["name"]:
             page_links += " current-page"
-        page_links += "' href='{0}'>{1}</a>".format(_page["url"], _page["short"])
+        page_links += (
+            "' href='{0}/{1}'>{2}</a>".format(
+                config["base_url"],
+                _page["url"],
+                _page["short"]))
     output = open("templates/" + page["url"]).read()
     output = output.replace("{ header }", header)
     output = output.replace("{ page_name }", page["name"])
